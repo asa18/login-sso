@@ -106,11 +106,28 @@ test('[VLE-LOGIN-009] Tombol aktif hanya jika field valid', async ({ page }) => 
   await expect(loginButton).toBeDisabled();
 });
 
-// test('[VLE-LOGIN-005] Field kosong (email & password)', async ({ page }) => {
-//     await page.goto('https://sso.staging.varnion.net.id/login');
-//     await page.locator('[data-slot="button"]').click();
-  
-//     await expect(page.getByText('Email is required')).toBeVisible();
-//     await expect(page.getByText('Password is required')).toBeVisible();
-// });
+test('[VLE-LOGIN-010] Salah login 3x berturut-turut', async ({ page }) => {
+  await page.goto('https://sso.staging.varnion.net.id/login');
+  await page.locator('[id="email"]').click();
+  await page.locator('[id="email"]').fill('superadmin@test.dev');
+  await page.locator('[id="password"]').click();
+  await page.locator('[id="password"]').fill('@Superadmin');
+  await page.locator('[data-slot="button"]').click();
+
+  await page.locator('[id="email"]').click();
+  await page.locator('[id="email"]').fill('superad@test.dev');
+  await page.locator('[id="password"]').click();
+  await page.locator('[id="password"]').fill('@Superadmin123');
+  await page.locator('[data-slot="button"]').click();
+
+  await page.locator('[id="email"]').click();
+  await page.locator('[id="email"]').fill('superadmin@test.dev');
+  await page.locator('[id="password"]').click();
+  await page.locator('[id="password"]').fill('@Super123');
+  await page.locator('[data-slot="button"]').click();
+
+
+  const captcha = page.locator('text=/verify/i'); // contoh pencarian teks "verify"
+  await expect(captcha).toBeVisible();
+});
 
