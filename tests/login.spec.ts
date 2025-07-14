@@ -127,7 +127,7 @@ test('[VLE-LOGIN-010] Salah login 3x berturut-turut', async ({ page }) => {
   await page.locator('[data-slot="button"]').click();
 
 
-  const captcha = page.locator('text=/verify/i'); // contoh pencarian teks "verify"
+  const captcha = page.locator('text=/verify/i');
   await expect(captcha).toBeVisible();
 });
 
